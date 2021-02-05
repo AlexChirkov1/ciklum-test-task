@@ -1,6 +1,6 @@
 # Calendar
 
-Calendar is a JavaScript web application to .
+Calendar is a JavaScript web application for booking meeting room.
 
 ## Installation
 
@@ -21,7 +21,7 @@ npm run build
 ```
 **Deploy to github pages** 
 ```npm
-npm rub deploy
+npm run deploy
 ```
 
 ## License
