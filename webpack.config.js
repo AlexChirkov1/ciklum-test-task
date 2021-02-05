@@ -10,7 +10,8 @@ module.exports = {
     },
     output: {
         path:path.resolve(__dirname, './dist'),
-        filename: '[name].bundle.js'
+        filename: '[name].bundle.js',
+        publicPath: "/ciklum-test-task/"
     },
     mode: 'production',
     devServer: {
@@ -30,7 +31,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             title: 'Create new event',
-            template:path.resolve(__dirname, './src/event-creator.html'),
+            template:path.resolve(__dirname, './src/create-event.html'),
             filename: 'create-event.html',
             chunks:['creator']
         }),

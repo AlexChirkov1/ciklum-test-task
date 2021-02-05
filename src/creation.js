@@ -8,6 +8,7 @@ let { hours, persons, days } = data
 const dayDropDownElem = document.getElementById("day")
 const timeDropDownElem = document.getElementById("time")
 const eventField = document.getElementById('text')
+const locationPath = location.pathname.split('/')[1]
 
 const createmultiSelectDropdown = () => {
   const container = document.getElementById('multiDropDown')
@@ -76,9 +77,9 @@ document.addEventListener('click', (e) => {
   }
 });
 
-document.getElementById('text').addEventListener('keyup',(e)=>{
+document.getElementById('text').addEventListener('keyup', (e) => {
   const errorText = document.querySelector('.input-error-text')
-  if(e.target.classList.contains('input-error')){
+  if (e.target.classList.contains('input-error')) {
     e.target.classList.remove('input-error')
     errorText.remove()
     return
@@ -92,8 +93,8 @@ document.getElementById('form').addEventListener('submit', (e) => {
   prepareData(...formData)
 })
 
-document.getElementById('cancel').addEventListener('click', ()=>{
-  location.href = "/";
+document.getElementById('cancel').addEventListener('click', () => {
+  location.href = `/${locationPath}`;
 })
 
 const createOptions = (field, loopData) => {
@@ -113,16 +114,31 @@ const prepareData = (...values) => {
     showInputError()
     return
   }
-  
-  data.saveData(transformToObject, showError)
+
+  saveData(transformToObject, showError)
+}
+
+const saveData = (values, errorFn) => {
+  let storage = JSON.parse(localStorage.getItem('data'))
+  let hasMatch = storage.find((s) => {
+    return (s.day === values.day) && (s.time === values.time)
+  })
+
+  if (!!hasMatch) {
+    errorFn()
+    return
+  }
+
+  storage.push(values)
+  localStorage.setItem("data", JSON.stringify(storage))
+  location.href = `/${locationPath}`
 }
 
 const showInputError = () => {
   const error = document.createElement('span')
   error.innerText = "Field is required"
 
-  if(eventField.classList.contains('input-error'))
-  {
+  if (eventField.classList.contains('input-error')) {
     return
   }
 
@@ -134,14 +150,14 @@ const showInputError = () => {
 const showError = () => {
   const errorForm = document.getElementById('error')
   const closeIcon = document.createElement('span')
-  
+
   if (errorForm.classList.contains('show')) {
     return
   }
 
   closeIcon.innerHTML = '&times;'
   closeIcon.classList.add('close-error')
-  closeIcon.onclick = ()=>{
+  closeIcon.onclick = () => {
     errorForm.classList.remove('show')
     p.innerText = ""
   }
@@ -156,7 +172,7 @@ const showError = () => {
     p.innerText = ""
   }, 10000);
 
-  errorForm.append(p,closeIcon)
+  errorForm.append(p, closeIcon)
 }
 
 const init = () => {

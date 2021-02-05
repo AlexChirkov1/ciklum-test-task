@@ -2,13 +2,13 @@ import data from './data'
 import './styles/main.scss'
 
 const { rowTitle, hours, days, persons } = data
+const locationPath = location.pathname.split('/')[1]
 
 if (!localStorage.getItem('data')) {
     localStorage.setItem('data', '[]')
 }
 
 const createTable = () => {
-    const container = document.querySelector('.container')
     const table = document.querySelector('.table')
     const thead = document.createElement('thead')
     const tr = document.createElement('tr')
@@ -84,7 +84,7 @@ const createButtonNewEvent = () => {
     const navContainer = document.querySelector('.navigation')
     const button = document.getElementById('createEvent')
     button.addEventListener('click', () => {
-        location.href = "/create-event.html";
+        location.href = `/${locationPath}/create-event`;
     })
     navContainer.append(button)
 }
